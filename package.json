@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "express.js",
   "scripts": {
-    "test": "node express.js",
-    "start": "node express.js"
+    "run": "node express.js",
+    "dev": "nodemon express.js"
   },
   "author": "Romil",
   "license": "ISC",
