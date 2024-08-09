@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "express.js",
   "scripts": {
-    "test": "npm run dev "
+    "test": "node express.js",
+    "start": "node express.js"
+    
+    
   },
   "author": "Romil",
   "license": "ISC",
