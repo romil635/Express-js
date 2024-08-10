@@ -27,6 +27,31 @@ app.post("/users",(req,res)=>{
           res.json(item);
      });
 
+     //Replace Data Mth-PUT
+     app.put("/user/:id",(req,res)=>{
+          let id = +req.params.id;
+          let userIndex = users.findIndex((item)=>item.id === id);
+          users.splice(userIndex, 1, req.body);
+          res.json({message:"User in The Success"});
+          });
+          //Update Data mth-Patch
+          app.put("/user/:id",(req,res)=>{
+          let id = +req.params.id;
+          let userIndex = users.findIndex((item)=>item.id === id);
+          let user = users[userIndex];
+          users.splice(userIndex, 1, {...user,...req.body});
+          res.json({message:"User in The Data Update Success"});
+          });
+
+          // Delete Data -DELETE
+          app.delete("/user/:id",(req,res)=>{
+               let id = +req.params.id;
+               let userIndex = users.findIndex((item) => item.id === id);
+               users.splice(userIndex, 1);
+               res.json({message: "User Deleted Success"});
+               });
+
+
      app.listen(2024,()=>{
           console.log("Server Start at http://localhost:2024");
      });
