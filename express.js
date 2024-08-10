@@ -1,57 +1,65 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
-const users = require("./friend.json");
-console.log(users);
+const products = require("./product.json");
+console.log(products);
+
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(express.urlencoded({extended:false }));
-app.get("/" , (req,res)=>{
-     res.send(" Welcome To Express Server");
+app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req, res) => {
+  res.send("Welcome To Express Server");
 });
-// CRUD
-// Creat User
-app.post("/users",(req,res)=>{
+// Products Routes
+// Create Product
+app.post("/products", (req, res) => {
      console.log(req.body);
-     users.push(req.body);
-     res.json({message: "User Added Success"});
-     });
-     // Read User  - Get All Users
-     app.get("/user",req,res=>{
-          res.json(users);
-     });
-     // Get Single User
-     app.get("/user/:id",(req,res)=>{
-          let id = +req.params.id;
-          let item = users.find((user)=>user.id === id)
-          res.json(item);
-     });
+     products.push(req.body);
+     res.json({ message: "Product Added Successfully" });
+   });
+   
+   // Read Product - Get All Products
+   app.get("/products", (req, res) => {
+     res.json(products);
+   });
+   
+   // Get Single Product
+   app.get("/products/:id", (req, res) => {
+     const id = +req.params.id;
+     const product = products.find(product => product.id === id);
+     res.json(product);
+   });
+   
+   // Replace Data Method - PUT
+   app.put("/products/:id", (req, res) => {
+     const id = +req.params.id;
+     const productIndex = products.findIndex(product => product.id === id);
+     products.splice(productIndex, 1, req.body);
+     res.json({ message: "Product Updated Successfully" });
+   });
+   
+   // Update Data Method - PATCH
+   app.patch("/products/:id", (req, res) => {
+     const id = +req.params.id;
+     const productIndex = products.findIndex(product => product.id === id);
+     const product = products[productIndex];
+     products.splice(productIndex, 1, { ...product, ...req.body });
+     res.json({ message: "Product Data Updated Successfully" });
+   });
+   
+   // Delete Data - DELETE
+   app.delete("/products/:id", (req, res) => {
+     const id = +req.params.id;
+     const productIndex = products.findIndex(product => product.id === id);
+     products.splice(productIndex, 1);
+     res.json({ message: "Product Deleted Successfully" });
+   });
+   
+   app.listen(2024, () => {
+     console.log("Server started at http://localhost:2024");
+   });
+   
 
-     //Replace Data Mth-PUT
-     app.put("/user/:id",(req,res)=>{
-          let id = +req.params.id;
-          let userIndex = users.findIndex((item)=>item.id === id);
-          users.splice(userIndex, 1, req.body);
-          res.json({message:"User in The Success"});
-          });
-          //Update Data mth-Patch
-          app.put("/user/:id",(req,res)=>{
-          let id = +req.params.id;
-          let userIndex = users.findIndex((item)=>item.id === id);
-          let user = users[userIndex];
-          users.splice(userIndex, 1, {...user,...req.body});
-          res.json({message:"User in The Data Update Success"});
-          });
 
-          // Delete Data -DELETE
-          app.delete("/user/:id",(req,res)=>{
-               let id = +req.params.id;
-               let userIndex = users.findIndex((item) => item.id === id);
-               users.splice(userIndex, 1);
-               res.json({message: "User Deleted Success"});
-               });
-
-
-     app.listen(2024,()=>{
-          console.log("Server Start at http://localhost:2024");
-     });
+   // ---------------------------------------------- PRODUCT TASK ------------------------------------------------//
