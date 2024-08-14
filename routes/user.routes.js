@@ -1,14 +1,14 @@
-// const express = require('express');
-// const userRoutes = express.Router();
-// const {
-//      addNewUser,
-//      getAllUser,
-//      getUser,
-//      replaceUser,
-//      updateUser,
-//      deleteUser
-// } = require("../controller/user.controller")
-// userRoutes.post("/",addNewUser);
+const express = require('express');
+const userRoutes = express.Router();
+const {
+     addNewUser,
+     getAllUser,
+     getUser,
+     replaceUser,
+     updateUser,
+     deleteUser
+} = require("../controller/user.controller")
+userRoutes.post("/",addNewUser);
 
 // userRoutes.get("/",getAllUser);
 
@@ -20,4 +20,4 @@
 
 // userRoutes.delete("/:id",deleteUser);
 
-// module.exports = userRoutes;
+module.exports = userRoutes;
