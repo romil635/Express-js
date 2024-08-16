@@ -44,24 +44,30 @@ exports.getUser =async (req, res) => {
     }
 };
 
-// exports.replaceUser = (req, res) => {
-//     let id = +req.params.id;
-//     let userIndex = users.findIndex((item) => item.id === id);
-//     users.splice(userIndex, 1, req.body);
-//     res.json({message: "User Replaced Success"});
-// };
-
-// exports.updateUser = (req, res) => {
-//     let id = +req.params.id;
-//     let userIndex = users.findIndex((item) => item.id === id);
-//     let user = users[userIndex];
-//     users.splice(userIndex, 1, {...user,...req.body});
-//     res.json({message: "User Update Success"});
-// };
-
-// exports.deleteUser = (req, res) => {
-//     let id = +req.params.id;
-//     let userIndex = users.findIndex((item) => item.id === id);
-//     users.splice(userIndex, 1);
-//     res.json({message: "User Delete Success"});
-// };
+exports.updateUser = async (req, res)=>{
+    try {
+      let user = await User.findById(req.query.userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      user = await User.findByIdAndUpdate(user._id, {$set: req.body}, {new: true});
+      res.status(202).json({ user, message: 'User update success'});
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+  
+  exports.deleteUser = async (req, res)=>{
+    try {
+      let user = await User.findById(req.query.userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      user = await User.findOneAndDelete({_id: user._id});
+      res.status(200).json({ user, message: 'User Delete success'});
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
