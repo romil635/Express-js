@@ -1,26 +1,27 @@
 const express = require('express');
 const morgan = require('morgan');
-const app = express(); 
-const mongoose = require('mongoose'); 
-const userRoutes = require('./routes/user.routes') 
+const product = express();   
+const mongoose = require('mongoose');
+const productRoutes = require("./routes/product.routes");
 
 
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+product.use(morgan("dev"));
+product.use(express.json());
+product.use(express.urlencoded({extended: false}));
 
 
-app.get("/", (req, res) => {
+product.get("/", (req, res) => {
     res.send("Welcome to Express server");
 })
 
-app.use("/api/user", userRoutes);
+product.use("/api/product", productRoutes)
 
-app.listen(1212, () => {
+
+product.listen(3000, () => {
     //Database Connection
     mongoose
-    .connect("mongodb://127.0.0.1:27017/mongooseapi")
+    .connect("mongodb://127.0.0.1:27017/products")
     .then(() => console.log("Databasse Connection established Success ..."))
     .catch((err) => console.error(err));
-    console.log(`Server Start at http://localhost:1212`);
+    console.log(`Server Start at http://localhost:3000`);
 });
