@@ -20,7 +20,7 @@ product.use("/api/product", productRoutes)
 product.listen(3000, () => {
     //Database Connection
     mongoose
-    .connect("mongodb+srv://sqromilrakholiya:rsrakholiya@cluster0.zgttq.mongodb.net/")
+    .connect("mongodb://127.0.0.1:27017/products")
     .then(() => console.log("Databasse Connection established Success ..."))
     .catch((err) => console.error(err));
     console.log(`Server Start at http://localhost:3000`);
