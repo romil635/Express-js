@@ -1,27 +1,39 @@
+require("dotenv").config();
 const express = require('express');
 const morgan = require('morgan');
-const product = express();   
-const mongoose = require('mongoose');
+const app = express(); 
+const mongoose = require('mongoose'); 
+const userRoutes = require('./routes/user.routes') 
 const productRoutes = require("./routes/product.routes");
+const port = process.env.PORT
 
 
-product.use(morgan("dev"));
-product.use(express.json());
-product.use(express.urlencoded({extended: false}));
+app.use(morgan("dev"));
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
 
-product.get("/", (req, res) => {
+app.get("/", (req, res) => {
     res.send("Welcome to Express server");
 })
 
-product.use("/api/product", productRoutes)
+app.use("/api/user", userRoutes);
+app.use("/api/product", productRoutes);
 
-
-product.listen(3000, () => {
+app.listen(port, () => {
     //Database Connection
     mongoose
-    .connect("mongodb+srv://sqromilrakholiya:rsrakholiya@cluster0.zgttq.mongodb.net/")
-    .then(() => console.log("Databasse Connection established Success ..."))
+    .connect(process.env.MONGO_URL)
+    .then(() => console.log("Database Connection established Success ..."))
     .catch((err) => console.error(err));
-    console.log(`Server Start at http://localhost:3000`);
+    console.log(`Server Start at http://localhost:${port}`);
 });
+
+// dotenv intalling tayagen//
+
+
+// git Push And New 
+//git checkout -b branch_name (create New branch)
+//git add .
+//git commit -m "your commit"
+//git push -u origin branch_name
