@@ -4,18 +4,21 @@ const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const mongoose = require("mongoose")
+const port = process.env.PORT;
+const cors = require('cors');
+const path = require('path');
+const ejs = require('ejs');
 const userRoutes = require('./routes/user.routes')
 const productRoutes = require('./routes/product.routes')
-const port = process.env.PORT;
-const cors = require('cors')
-const path = require('path')
-
+const cartsRouts = require('./routes/carts.routs')
 app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-
 app.use("/public/images",express.static(path.join(__dirname, "public/images")))
+app.use("/public",express.static(path.json(__dirname,"public")))
+app.set("view engine" , 'ejs')
+
 
 app.get("/", (req, res) => {
   res.send("welcome to express server")
@@ -26,6 +29,38 @@ app.use('/api/user', userRoutes)
 
 // Product Routes
 app.use('/api/product', productRoutes)
+
+module.exports = (passport) => {
+  passport.use(new LocalStrategy(
+    async (username, password, done) => {
+      try {
+        const user = await User.findOne({ username });
+        if (!user) return done(null, false, { message: 'Incorrect username.' });
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (isMatch) return done(null, user);
+
+        return done(null, false, { message: 'Incorrect password.' });
+      } catch (err) {
+        return done(err);
+      }
+    }
+  ));
+
+  passport.serializeUser((user, done) => {
+    done(null, user.id);
+  });
+
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await User.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err);
+    }
+  });
+};
+
 
 app.listen(port, () => {
   // Database connection -> mongoose function

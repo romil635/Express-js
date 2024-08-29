@@ -1,7 +1,8 @@
 // const users = require('../user.json')  //=>static 
-const User = require('../model/user.model')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const User = require('../model/user.model');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
 
 //register user with profile image uploading
 exports.registerUser = async (req, res) => {
@@ -85,7 +86,32 @@ exports.deleteUser = async (req, res) => {
       console.log(err);
       res.status(500).json({ message: 'Server Error' })
    }
-}
+};
+// Register User
+exports.registerUser = async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await User.create({ username, password: hashedPassword });
+      res.redirect('/login');
+    } catch (err) {
+      res.status(500).send('Error registering user');
+    }
+  };
+  
+  // Login User
+  exports.loginUser = (req, res, next) => {
+    passport.authenticate('local', {
+      successRedirect: '/',
+      failureRedirect: '/login',
+    })(req, res, next);
+  };
+  
+  // Logout User
+  exports.logoutUser = (req, res) => {
+    req.logout();
+    res.redirect('/login');
+  };
 
 
 
@@ -94,3 +120,19 @@ exports.deleteUser = async (req, res) => {
 // corrent password =>corrent password
 // corrent password update operation -> new password
 // new password and comfirm password
+
+// exports.specialUser = (req ,res) => {
+// try{
+//     let user = {
+//         firstName:'romil',
+//         lastName:'Rakholiya',
+//         email:'romil@gmail.com',
+//         age:20,
+//         mobileNo:"12345678990",
+//         hobbies:['coding','business','music']
+//     };
+//     let user = await User.findOne({firstName: req.query.name, isDelete:false});
+//     if(!user){
+//         return res.render('notfound.ejs')
+// }
+// }

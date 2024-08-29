@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>signup</title>
+  <link rel="stylesheet" href="/public/style.css">
+</head>
+<body>
+  <div class="from-containar">
+    <h2>signup</h2>
+    <from action="/signup" method="post">
+      <div class="from-group">
+        <label for="name">Name:</label>
+<input type="text" id="name" name="username" placeholder="Enter your name" required autocapitalize="off">
+      </div>
+      <div class="from-group">
+        <label for="password">password</label>
+        <input type="password" name="password" id="password" placeholder="password " required>
+      </div>
+      <button type="submit" class="submit-btn">signup</button>
+    </from>
+    <p>Don't Have an Account? <a href="../views/singup.ejs">signup</a></p>
+  </div>
+</body>
+</html>
