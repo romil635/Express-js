@@ -27,8 +27,11 @@ app.get("/", (req, res) => {
 // user Routes
 app.use('/api/user', userRoutes)
 
+
 // Product Routes
 app.use('/api/product', productRoutes)
+// carts Routes
+app.use('/api/carts',cartsRouts)
 
 module.exports = (passport) => {
   passport.use(new LocalStrategy(
