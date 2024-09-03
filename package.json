@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "express.js",
   "scripts": {
-    "run": "node index.js",
-    "dev": "nodemon index.js"
+    "run": "node express.js",
+    "dev": "nodemon express.js"
   },
   "author": "Romil",
   "license": "ISC",

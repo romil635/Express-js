@@ -11,6 +11,7 @@ const ejs = require('ejs');
 const userRoutes = require('./routes/user.routes')
 const productRoutes = require('./routes/product.routes')
 const cartsRouts = require('./routes/carts.routs')
+const oderRoutes =require('./')
 app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
@@ -32,7 +33,8 @@ app.use('/api/user', userRoutes)
 app.use('/api/product', productRoutes)
 // carts Routes
 app.use('/api/carts',cartsRouts)
-
+// Oder Routs
+app.use('/api/oder',oderRoutes)
 module.exports = (passport) => {
   passport.use(new LocalStrategy(
     async (username, password, done) => {
@@ -73,7 +75,7 @@ app.listen(port, () => {
       console.log("Database connection established sucess...")
     })
     .catch((err) => console.log(err));
-console.log(`Server start at http://localhost:${port}`);
+console.log(`Server start at http://localhost:${PORT}`);
 })
 
 
@@ -89,4 +91,5 @@ console.log(`Server start at http://localhost:${port}`);
 //git add .
 //git commit -m "your commit"
 //git push -u origin branch_name
+
 
